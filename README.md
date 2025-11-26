@@ -1,196 +1,188 @@
-QA Automation & Manual Testing Project
+Cypress UI Automation – SauceDemo
 
-This repository contains a complete QA project including UI automation, API testing, manual test documentation, SQL validation, and CI/CD integration.
-The goal of this project is to demonstrate practical QA skills across multiple testing layers, similar to what is used in real-world software engineering teams.
+This repository contains a complete UI Automation Testing project using Cypress, designed to demonstrate end-to-end web testing skills for Junior QA/QA Automation roles.
+
+The project includes login automation, UI element validation, basic workflows, and CI/CD execution through GitHub Actions.
 
 
 ---
 
-🔍 Project Overview
+🚀 Project Overview
 
-This project includes:
+This project automates core user flows on SauceDemo, including:
 
-✔ UI Test Automation using Cypress
-✔ API Testing using Postman (Newman)
-✔ Manual Testing (Test Cases, Bug Reports, Checklists)
-✔ SQL Data Validation
-✔ CI/CD Integration using GitHub Actions
-✔ Screenshots & test evidence
-✔ Documentation aligned with SDLC & Agile QA practices
+Login functionality
+
+Adding items to the cart
+
+Validating successful navigation to Inventory page
+
+UI element interactions
+
+Running automated tests in CI/CD (GitHub Actions)
+
+
+The goal is to showcase practical hands-on experience in UI test automation, commonly used in modern QA workflows.
 
 
 ---
 
 📁 Project Structure
 
-QA-Automation-Demo
- ├── README.md
- ├── ManualTesting/
- │     ├── TestCases.xlsx
- │     ├── BugReports.xlsx
- │     ├── Checklist.xlsx
- │     └── Screenshots/
- ├── API/
- │     ├── Postman_Collection.json
- │     ├── TestResults/
- ├── Automation/
- │     ├── cypress/
- │     ├── package.json
- ├── SQL/
- │     ├── queries.sql
- │     ├── DataValidation.xlsx
+Cypress-UI-Automation/
+ ├── cypress/
+ │     ├── e2e/
+ │     │     ├── login.cy.js
+ │     │     └── add_to_cart.cy.js
+ │     ├── fixtures/
+ │     │     └── user.json
+ │     ├── support/
+ │           ├── commands.js
+ │           └── e2e.js
  ├── .github/
  │     └── workflows/
  │           └── ci.yml
+ ├── cypress.config.js
+ ├── package.json
+ └── README.md
 
 
 ---
 
-🚀 UI Test Automation (Cypress)
+🧪 Test Scenarios
 
-This project includes basic end-to-end UI test scenarios:
+🔹 1. Login Test
 
-Login Test
+Validates that the user can log in using valid credentials.
 
-Add to Cart Test
+describe('Login Test', () => {
+  it('User should login successfully', () => {
+    cy.visit('/');
 
-Checkout Test
+    cy.get('#user-name').type('standard_user');
+    cy.get('#password').type('secret_sauce');
+    cy.get('#login-button').click();
 
-Logout Test
+    cy.url().should('include', '/inventory');
+  });
+});
 
 
-Run Cypress locally:
+---
+
+🔹 2. Add to Cart Test
+
+Automates adding an item to the shopping cart.
+
+describe('Add To Cart', () => {
+  it('should add item to cart', () => {
+    cy.visit('/');
+
+    cy.get('#user-name').type('standard_user');
+    cy.get('#password').type('secret_sauce');
+    cy.get('#login-button').click();
+
+    cy.contains('Add to cart').first().click();
+    cy.get('.shopping_cart_badge').should('contain', '1');
+  });
+});
+
+
+---
+
+⚙️ Configuration (cypress.config.js)
+
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: "https://www.saucedemo.com",
+    setupNodeEvents(on, config) {},
+  },
+});
+
+
+---
+
+📦 Installation & Running Tests
+
+Install dependencies:
 
 npm install
+
+Run Cypress in UI Mode:
+
 npx cypress open
 
-Run automation in headless mode:
+Run tests in headless mode:
 
 npx cypress run
 
 
 ---
 
-🔌 API Testing (Postman + Newman)
+🔄 CI/CD – GitHub Actions
 
-The Postman_Collection.json contains API test scenarios including:
+Every push to the main branch automatically runs Cypress tests using GitHub Actions.
 
-GET /products
-
-POST /login
-
-PUT /update
-
-DELETE /resource
-
-Authentication & negative testing
-
-Response validation: status codes + JSON schema
-
-
-Run with Newman:
-
-newman run Postman_Collection.json
-
-
----
-
-🧪 Manual Testing Documentation
-
-Included:
-
-TestCases.xlsx (functional + regression)
-
-BugReports.xlsx (severity, priority, steps, expected/actual)
-
-Test Checklist
-
-Screenshots folder
-
-
-Documentation follows ISTQB structure.
-
-
----
-
-🗄 SQL Data Validation
-
-Sample database validations:
-
-User table verification
-
-Order data consistency
-
-Join operations validation
-
-Negative data testing
-
-Backend logic validation
-
-
-
----
-
-🔄 CI/CD Integration (GitHub Actions)
-
-Every push to the main branch automatically triggers:
-
-✔ Cypress UI automation
-✔ API Testing (optional – if added)
-✔ Build + test + logs in GitHub Actions
-
-Example CI pipeline is included in:
+Workflow file is located at:
 
 .github/workflows/ci.yml
 
+CI Workflow Content:
+
+name: Cypress Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Cypress Tests
+        run: npx cypress run
+
+✔ تست‌ها به صورت خودکار در GitHub اجرا می‌شوند
+✔ نتایج در تب Actions قابل مشاهده است
+
 
 ---
 
-🛠 Tools Used
+🛠 Technologies Used
 
-Category	Tools
+Area	Tools
 
 UI Automation	Cypress
-API Testing	Postman, Newman
-Manual Testing	Excel, Screenshots
 CI/CD	GitHub Actions
-Version Control	Git & GitHub
-Other	SQL, VS Code
+Language	JavaScript
+Version Control	Git + GitHub
 
 
 
 ---
 
-👩‍💻 About Me
+👩‍💻 About This Project
 
-This project is part of my QA engineering portfolio and demonstrates practical experience in:
+This repository is part of a professional QA portfolio, showcasing:
 
-Manual Testing
-
-API Testing
-
-Test Case Design
-
-Bug Reporting
-
-UI Automation
-
-SQL Validation
-
-CI/CD setup
-
-
-GitHub Profile: github.com/Narsis93
-
-
----
-
-✅ Future Improvements
-
-Add full TestPlan and Test Strategy
-
-Expand Cypress automation suite
-
-Add API schema validation
-
-Add reporting dashboards (Allure / Mochawesome)
+✔ UI Automation
+✔ Test design
+✔ Workflow validation
+✔ CI/CD execution
+✔ Modern QA skills for junior-level roles
