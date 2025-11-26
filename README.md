@@ -166,12 +166,12 @@ jobs:
 
 🛠 Technologies Used
 
-Area	Tools
+Area.    	   Tools
 
-UI Automation	Cypress
-CI/CD	GitHub Actions
-Language	JavaScript
-Version Control	Git + GitHub
+UI        Automation	Cypress
+CI/CD. 	  GitHub Actions
+Language	 JavaScript
+Version   Control	Git + GitHub
 
 
 
